@@ -1,25 +1,49 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { useForm } from "react-hook-form";
+import "./App.css";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
 
-export default App;
+    
+      const App = () => {
+  
+        const { register, handleSubmit, errors } = useForm();
+
+        function onSubmit(data) {
+          console.log("Data submitted: ", data);
+        }
+      
+        return (
+          <div className="login-form">
+            <form onSubmit={handleSubmit(onSubmit)} noValidate>
+              <label htmlFor="inputEmail">E-mail</label>
+              <input
+                type="email"
+                id="inputEmail"
+                name="email"
+                ref={register({
+                  required: "Enter your e-mail",
+                  pattern: {
+                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                    message: "Enter a valid e-mail address",
+                  },
+                })}
+              />
+              {errors.email && <p className="error">{errors.email.message}</p>}
+      
+              <label htmlFor="inputPassword">Nome completo</label>
+              <input
+                type="password"
+                id="inputPassword"
+                name="password"
+                ref={register({ required: "Enter your password" })}
+              />
+              {errors.password && <p className="error">{errors.password.message}</p>}
+      
+              <button type="submit">Login</button>
+            </form>
+          </div>
+        );
+      };
+      
+      export default App;
+  
